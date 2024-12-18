@@ -1,39 +1,41 @@
 ﻿/*
-    Auteur : Alexis Paquette
-    Date : 2023-12-10
-    Description : Ce script contient le code pour les mouvements de la caméra pendant la scène de jeu. Avec ce code, la caméra suit le joueur avec un léger ralentissement et s'agrandie lors de l'entrée dans la zone du boss.
+    Author: Alexis Paquette
+    Date: 2023-12-10
+    Description: This script contains the code for camera movements during the game scene. 
+    The camera follows the player with a slight delay and zooms out when entering the boss area.
 */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] private Transform _cible; //variable Transform de la cible à atteindre
-    [SerializeField] private float _vitesse; //float de la vitesse de la caméra
-    private Vector3 _startPos; //Vector3 de la position de départ
-    private Vector3 _endPos; //Vector3 de la position finale
-    private float _vitesseZoom = 1.5f; //float de la vitesse s'agrandissement de la caméra
-    private Coroutine _augmenterDim; //coroutine de l'augmentation des dimensions de la caméra
+    [SerializeField] private Transform _cible; // Transform variable for the target to follow
+    [SerializeField] private float _vitesse; // Camera movement speed
+    private Vector3 _startPos; // Starting position of the camera
+    private Vector3 _endPos; // Target position for the camera
+    private float _vitesseZoom = 1.5f; // Zoom speed for the camera
+    private Coroutine _augmenterDim; // Coroutine to handle camera zooming
 
-    void Update() //Fonction classique d'Unity. Gère les déplacements
+    void Update() // Unity's standard function. Handles camera movement
     {
         _startPos = transform.position;
         _endPos = _cible.position;
-        _endPos.z = transform.position.z; 
-         transform.position = Vector3.Lerp(_startPos, _endPos, _vitesse * Time.deltaTime);  
+        _endPos.z = transform.position.z; // Ensure the camera's Z position remains unchanged
+        transform.position = Vector3.Lerp(_startPos, _endPos, _vitesse * Time.deltaTime);
     }
 
-    // S'occupe d'activer la coroutine du changement des dimensions de la caméra. public
+    // Activates the coroutine for changing the camera dimensions. Public
     public void ChangerDimension()
     {
-        _augmenterDim = StartCoroutine( AugmenterDim() );
+        _augmenterDim = StartCoroutine(AugmenterDim());
     }
 
-    // S'occupe d'agrandir à vitesse constante les dimensions de la caméra. privé
+    // Gradually increases the camera's size at a constant speed. Private
     private IEnumerator AugmenterDim()
     {
-        while(GetComponent<Camera>().orthographicSize < 7.5f)
+        while (GetComponent<Camera>().orthographicSize < 7.5f)
         {
             float step = _vitesseZoom * Time.deltaTime;
 

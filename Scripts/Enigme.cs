@@ -1,8 +1,10 @@
 /*
-    Auteur : Alexis Paquette
-    Date : 2023-12-10
-    Description : Ce script sert de <<GameManager>> pour gérer les réactions de la zone d'énigme. Ce code sert principalement pour la création d'un mot de passe de 4 chiffres à reproduire, sa re-création lors d'une erreur et le mouvement de la porte.
+    Author: Alexis Paquette
+    Date: 2023-12-10
+    Description: This script serves as a "GameManager" to handle interactions in the puzzle area. 
+    It primarily manages the creation of a 4-digit password to reproduce, resets it upon an error, and controls the door's movement.
 */
+
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,22 +13,22 @@ using UnityEngine.UI;
 
 public class Enigme : MonoBehaviour
 {
-    [SerializeField] private AudioClip _sonEchec; //clip de son d'un échec à reproduire le mot de passe
-    [SerializeField] private Vector3 _pos; //Vector3 de la position finale de la porte lors d'une réussite
-    [SerializeField] private GameObject _porte; //Gameobject de la porte
-    [SerializeField] private Bouton[] _btn; //Tableau des quatres boutons
-    [SerializeField] private TextMeshPro _txtCode; //champ de texte de l'affichage du code
-    private List<int> _code = new List<int>(){1}; //liste du mot de passe à afficher
-    private List<int> _codeCompose; //liste du mot de passe composé par le joueur
-    private bool _aReussit = false; //bool avec false, représente si le joueur a réussit ou non
+    [SerializeField] private AudioClip _sonEchec; // Audio clip for the sound played on a failed password attempt
+    [SerializeField] private Vector3 _pos; // Final position of the door upon success
+    [SerializeField] private GameObject _porte; // GameObject representing the door
+    [SerializeField] private Bouton[] _btn; // Array of the four buttons
+    [SerializeField] private TextMeshPro _txtCode; // Text field displaying the password
+    private List<int> _code = new List<int>(){1}; // List of the password to display
+    private List<int> _codeCompose; // List of the password composed by the player
+    private bool _aReussit = false; // Boolean indicating whether the player succeeded or not
     
-    void Start() //Fonction classique d'Unity. Permet de réinitialiser le mot de passe à compléter
+    void Start() // Unity's standard function. Resets the password to complete
     {
         _code = ReinitialiserCode();
         _codeCompose = new List<int>();
     }
 
-    void Update() //Fonction classique d'Unity. Gère les déplacements de la porte
+    void Update() // Unity's standard function. Handles the door's movement
     {
         if(_aReussit)
         {
@@ -39,7 +41,7 @@ public class Enigme : MonoBehaviour
         }
     }
 
-    // Retourne une liste réinitialisée du mot de passe à compléter. Privé
+    // Returns a reset version of the password to complete. Private
     private List<int> ReinitialiserCode()
     {
         _code.Clear();
@@ -48,16 +50,16 @@ public class Enigme : MonoBehaviour
         int nbItems = listeTemp.Count;
         for (int i = 0; i < nbItems; i++)
         {
-            int n = Random.Range(0,listeTemp.Count);
+            int n = Random.Range(0, listeTemp.Count);
             nouveauCode.Add(listeTemp[n]);
             listeTemp.RemoveAt(n);
         }
-        _txtCode.text = string.Join("-", nouveauCode); //Affichage du mot de passe
+        _txtCode.text = string.Join("-", nouveauCode); // Displays the password
         Debug.Log(string.Join("-", nouveauCode) + "");
         return nouveauCode;
     }
 
-    //S'occupe d'ajouter le chiffre du dernier bouton activé au code composé. Public
+    // Adds the number from the last activated button to the composed password. Public
     public void AjouterChiffre(int chiffre)
     {
         _codeCompose.Add(chiffre);
@@ -75,19 +77,19 @@ public class Enigme : MonoBehaviour
         }
     }
 
-    //S'occupe de comparer le mdp(mot de passe) à reproduire et le mdp composé. Private
+    // Compares the password to reproduce with the composed password. Private
     private bool ComparerCode(List<int> a, List<int> b)
     {
         if(a.Count != b.Count) return false;
 
         for (int i = 0; i < a.Count; i++)
         {
-            if(a[i]!=b[i]) return false;
+            if(a[i] != b[i]) return false;
         }
         return true;
     }
 
-    // Communique au joueur que le mdp n'a pas été correctement reproduit. Private
+    // Notifies the player that the password was not reproduced correctly. Private
     private void MontrerErreur()
     {
         _txtCode.text = "X-X-X-X";
@@ -98,7 +100,7 @@ public class Enigme : MonoBehaviour
         }
     }
 
-    //Affichage du mdp à reproduire réinitialisé et efface le mdp composé. Public
+    // Displays the reset password and clears the composed password. Public
     public void AfficherCode()
     {
         _code = ReinitialiserCode();
