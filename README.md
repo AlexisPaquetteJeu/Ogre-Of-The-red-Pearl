@@ -1,6 +1,8 @@
 The Ogre of The Red Pearl
 ================================
 
+![2024-12-17_20-49](https://github.com/user-attachments/assets/430c06aa-29b3-4228-8fa9-b4ac4141923b)
+
 This project was conceived in my third game design course of my multimedia Technique. It was my first experience as a solo developper working with Unity, giving me plenty of freedom to experiment with C# (before AI was a thing!)
 
 As a lone miner in a dangerous lava cave, you must collect the precious red pearl kept by the monstrous ogre. With the help of your magnetic gems, you can pass over threatening obstacles to acheive your goal.
@@ -27,6 +29,8 @@ I found that the Lerp function has a lot of uses and the variable _vitesse makes
 ```
 
 ## 2- Making a code for the puzzle room
+
+![2024-12-17_20-47](https://github.com/user-attachments/assets/24650a82-7a8c-495d-9851-bf9c20f486e7)
 
 This game mechanic made me discover the practicality and importance of lists in C#. With lists, I was able to create new sequences of numbers to show the player. 
 
